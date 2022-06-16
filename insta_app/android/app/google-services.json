@@ -29,6 +29,13 @@
             {
               "client_id": "210562490075-1dna9n0cbkbssou4dmm7fbog8sip2d62.apps.googleusercontent.com",
               "client_type": 3
+            },
+            {
+              "client_id": "210562490075-pp6pahq53iopkbj7pe1is9da1kipa239.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.instaApp"
+              }
             }
           ]
         }
