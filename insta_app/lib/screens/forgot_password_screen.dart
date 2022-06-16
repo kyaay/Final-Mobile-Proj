@@ -94,6 +94,8 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                   child: !_isLoading
                       ? const Text(
                           'Forgot Password',
+                          style: TextStyle(
+                          fontWeight: FontWeight.bold, color: webBackgroundColor),
                         )
                       : const CircularProgressIndicator(
                           color: primaryColor,
