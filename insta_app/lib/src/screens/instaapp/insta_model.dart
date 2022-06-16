@@ -8,6 +8,7 @@ class Insta {
     this.details = '',
     DateTime? create,
   }) {
+    // ignore: unnecessary_null_comparison
     created == null ? this.created = DateTime.now() : this.created = created;
   }
 

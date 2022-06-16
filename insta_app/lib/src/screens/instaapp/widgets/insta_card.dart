@@ -7,6 +7,7 @@ class InstaCard extends StatelessWidget {
   final Function()? onTap;
   final Function()? onLongPress;
   final EdgeInsets? margin;
+  // ignore: unused_field
   final ScrollController _sc = ScrollController();
 
   InstaCard(
