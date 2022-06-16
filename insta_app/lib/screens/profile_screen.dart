@@ -4,9 +4,13 @@ import 'package:flutter/material.dart';
 import 'package:instagram_clone_flutter/resources/auth_methods.dart';
 import 'package:instagram_clone_flutter/resources/firestore_methods.dart';
 import 'package:instagram_clone_flutter/screens/login_screen.dart';
+import 'package:instagram_clone_flutter/screens/mobile_scanner.dart';
 import 'package:instagram_clone_flutter/utils/colors.dart';
 import 'package:instagram_clone_flutter/utils/utils.dart';
 import 'package:instagram_clone_flutter/widgets/follow_button.dart';
+import 'package:mobile_scanner/mobile_scanner.dart';
+import 'package:qr_flutter/qr_flutter.dart';
+import 'package:getwidget/getwidget.dart';
 
 class ProfileScreen extends StatefulWidget {
   final String uid;
@@ -198,6 +202,39 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           userData['bio'],
                         ),
                       ),
+                      Row(
+                        children: [
+                          Container(
+                            alignment: Alignment.centerLeft,
+                            padding: const EdgeInsets.only(
+                              top: 15,
+                            ),
+                            child: GFButton(
+                              onPressed: () {
+                                qrCard();
+                              },
+                              text: 'Get QR Code',
+                            ),
+                          ),
+                          SizedBox(width: 15),
+                          Container(
+                            alignment: Alignment.centerLeft,
+                            padding: const EdgeInsets.only(
+                              top: 15,
+                            ),
+                            child: GFButton(
+                              onPressed: () {
+                                Navigator.of(context).pushReplacement(
+                                  MaterialPageRoute(
+                                    builder: (context) => mobileScanner(),
+                                  ),
+                                );
+                              },
+                              text: 'Scan QR Code',
+                            ),
+                          ),
+                        ],
+                      ),
                     ],
                   ),
                 ),
@@ -269,4 +306,48 @@ class _ProfileScreenState extends State<ProfileScreen> {
       ],
     );
   }
+
+  Future qrCard() => showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+            title: Text(userData['username']),
+            content: Container(
+              color: Colors.white,
+              width: 250.0,
+              height: 250.0,
+              child: QrImage(
+                data: userData['uid'],
+                version: QrVersions.auto,
+                size: 200.0,
+              ),
+            ),
+            actions: [TextButton(onPressed: close, child: Text('Close'))],
+          ));
+
+  void close() {
+    Navigator.of(context).pop();
+  }
 }
+
+
+  // return Card(
+  //   margin: EdgeInsets.fromLTRB(16, 16, 16, 0),
+  //   child: GFCard(
+  //     boxFit: BoxFit.cover,
+  //     title: const GFListTile(
+  //       avatar: GFAvatar(),
+  //       title: Text('Card Title'),
+  //       subTitle: Text('Card Sub Title'),
+  //     ),
+  //     content: Text("Some quick example text to build on the card"),
+  //     buttonBar: GFButtonBar(
+  //       children: <Widget>[
+  //         GFButton(
+  //           onPressed: () {},
+  //           text: 'Exit',
+  //         ),
+  //       ],
+  //     ),
+  //   ),
+  // );
+
