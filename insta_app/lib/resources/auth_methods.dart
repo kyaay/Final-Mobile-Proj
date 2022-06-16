@@ -40,8 +40,8 @@ class AuthMethods {
           password: password,
         );
 
-        String photoUrl =
-            await StorageMethods().uploadImageToStorage('profilePics', file, false);
+        String photoUrl = await StorageMethods()
+            .uploadImageToStorage('profilePics', file, false);
 
         model.User _user = model.User(
           username: username,
@@ -94,5 +94,24 @@ class AuthMethods {
 
   Future<void> signOut() async {
     await _auth.signOut();
+  }
+
+  Future forgotPassword({
+    required String email,
+  }) async {
+    String res = "Some error Occurred";
+    try {
+      if (email.isNotEmpty) {
+        // forgot password
+        await _auth.sendPasswordResetEmail(email: email);
+        print('called function');
+        res = "success";
+      } else {
+        res = "Please input email";
+      }
+    } catch (err) {
+      return err.toString();
+    }
+    return res;
   }
 }
