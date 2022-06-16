@@ -17,11 +17,12 @@ void main() async {
   if (kIsWeb) {
     await Firebase.initializeApp(
       options: const FirebaseOptions(
-        apiKey: "AIzaSyCZ-xrXqD5D19Snauto-Fx_nLD7PLrBXGM",
-        appId: "1:585119731880:web:eca6e4b3c42a755cee329d",
-        messagingSenderId: "585119731880",
-        projectId: "instagram-clone-4cea4",
-        storageBucket: 'instagram-clone-4cea4.appspot.com'
+        apiKey: 'AIzaSyCNUnFeYVFDI6kCMOhdwT1AXwQVFDEswJM',
+        appId: '1:210562490075:web:8c1a6d14ea24becb08f6fe',
+        messagingSenderId: '210562490075',
+        projectId: 'pikturesque',
+        authDomain: 'pikturesque.firebaseapp.com',
+        storageBucket: 'pikturesque.appspot.com',
       ),
     );
   } else {
@@ -37,7 +38,9 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
-        ChangeNotifierProvider(create: (_) => UserProvider(),),
+        ChangeNotifierProvider(
+          create: (_) => UserProvider(),
+        ),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
