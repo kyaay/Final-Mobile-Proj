@@ -17,13 +17,12 @@ void main() async {
   if (kIsWeb) {
     await Firebase.initializeApp(
       options: const FirebaseOptions(
-        apiKey: 'AIzaSyCNUnFeYVFDI6kCMOhdwT1AXwQVFDEswJM',
-        appId: '1:210562490075:web:8c1a6d14ea24becb08f6fe',
-        messagingSenderId: '210562490075',
-        projectId: 'pikturesque',
-        authDomain: 'pikturesque.firebaseapp.com',
-        storageBucket: 'pikturesque.appspot.com',
-      ),
+          apiKey: "AIzaSyCNUnFeYVFDI6kCMOhdwT1AXwQVFDEswJM",
+          authDomain: "pikturesque.firebaseapp.com",
+          projectId: "pikturesque",
+          storageBucket: "pikturesque.appspot.com",
+          messagingSenderId: "210562490075",
+          appId: "1:210562490075:web:8c1a6d14ea24becb08f6fe"),
     );
   } else {
     await Firebase.initializeApp();
