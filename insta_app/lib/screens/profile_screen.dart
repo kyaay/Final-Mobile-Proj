@@ -70,7 +70,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
   }
 
   final TextEditingController _controller =
-      TextEditingController(text: "userData['username']");
+      TextEditingController(text: userData['username']);
+  bool _isEnable = false;
 
   @override
   Widget build(BuildContext context) {
@@ -191,8 +192,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         ),
                         child: Row(
                           children: [
-                            Text(
-                              userData['username'],
+                            TextField(
+                              controller: _controller,
+                              enabled: _isEnable,
                               style: const TextStyle(
                                 fontWeight: FontWeight.bold,
                               ),
@@ -201,7 +203,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               icon: const Icon(Icons.edit),
                               onPressed: () {
                                 setState(() {
-                                  _editTitleTextField();
+                                  _isEnable = true;
                                 });
                               },
                             )
@@ -231,7 +233,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               text: 'Get QR Code',
                             ),
                           ),
-                          const SizedBox(width: 15),
+                          SizedBox(width: 15),
                           Container(
                             alignment: Alignment.centerLeft,
                             padding: const EdgeInsets.only(
@@ -241,7 +243,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               onPressed: () {
                                 Navigator.of(context).pushReplacement(
                                   MaterialPageRoute(
-                                    builder: (context) => const mobileScanner(),
+                                    builder: (context) => mobileScanner(),
                                   ),
                                 );
                               },
@@ -293,29 +295,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
               ],
             ),
           );
-  }
-
-  Widget _editTitleTextField() {
-    if (userData['username']) {
-      return Center(
-        child: TextField(
-          onSubmitted: (newValue) {
-            setState(() {
-              userData['username'] = newValue;
-            });
-          },
-          autofocus: true,
-          controller: _controller,
-        ),
-      );
-    }
-    return InkWell(
-      onTap: () {
-        setState(() {
-          _editTitleTextField();
-        });
-      },
-    );
   }
 
   Column buildStatColumn(int num, String label) {
