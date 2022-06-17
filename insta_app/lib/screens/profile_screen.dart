@@ -1,7 +1,10 @@
+import 'dart:typed_data';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:getwidget/getwidget.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:instagram_clone_flutter/resources/auth_methods.dart';
 import 'package:instagram_clone_flutter/resources/firestore_methods.dart';
 import 'package:instagram_clone_flutter/screens/login_screen.dart';
@@ -12,6 +15,7 @@ import 'package:instagram_clone_flutter/widgets/follow_button.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 
 import '../utils/colors.dart';
+import '../utils/textfield.dart';
 
 class ProfileScreen extends StatefulWidget {
   final String uid;
@@ -28,6 +32,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
   int following = 0;
   bool isFollowing = false;
   bool isLoading = false;
+  bool _isLoading = false;
+  final TextEditingController _usernameController = TextEditingController();
+  Uint8List? _image;
 
   @override
   void initState() {
@@ -68,6 +75,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
     setState(() {
       isLoading = false;
     });
+  }
+
+  void dispose() {
+    super.dispose();
+    _usernameController.dispose();
   }
 
   final _controller = TextEditingController();
@@ -197,10 +209,12 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                 fontWeight: FontWeight.bold,
                               ),
                             ),
-                            const Icon(
-                              Icons.edit,
-                              color: Color.fromARGB(255, 93, 71, 240),
-                            ),
+                            IconButton(
+                              icon: Icon(Icons.edit),
+                              onPressed: () {
+                                menuDialog();
+                              },
+                            )
                           ],
                         ),
                       ),
@@ -335,7 +349,141 @@ class _ProfileScreenState extends State<ProfileScreen> {
             actions: [TextButton(onPressed: close, child: Text('Close'))],
           ));
 
+  Future menuDialog() => showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+            title: Text('Edit details'),
+            content: Container(
+                width: 250.0,
+                height: 250.0,
+                child: Column(
+                  children: [
+                    GFButton(
+                      onPressed: editUsername,
+                      text: 'Edit username',
+                    ),
+                    GFButton(
+                      onPressed: editPhoto,
+                      text: 'Edit photo',
+                    )
+                  ],
+                )),
+            actions: [TextButton(onPressed: close, child: Text('Close'))],
+          ));
+
+  Future editPhoto() => showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+            title: Text('Edit details'),
+            content: Container(
+                width: 250.0,
+                height: 250.0,
+                child: Column(
+                  children: [
+                    Container(
+                      child: IconButton(
+                        onPressed: selectImage,
+                        icon: const Icon(Icons.add_a_photo),
+                      ),
+                    ),
+                  ],
+                )),
+            actions: [
+              TextButton(onPressed: editPho, child: Text('Edit')),
+              TextButton(onPressed: close, child: Text('Close'))
+            ],
+          ));
+
+  Future editUsername() => showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+            title: Text('Edit details'),
+            content: Container(
+                width: 250.0,
+                height: 250.0,
+                child: Column(
+                  children: [
+                    TextFieldInput(
+                      hintText: 'Edit your username (Optional)',
+                      textInputType: TextInputType.text,
+                      textEditingController: _usernameController,
+                    ),
+                  ],
+                )),
+            actions: [
+              TextButton(onPressed: editUname, child: Text('Edit')),
+              TextButton(onPressed: close, child: Text('Close'))
+            ],
+          ));
+
   void close() {
     Navigator.of(context).pop();
+  }
+
+  selectImage() async {
+    Uint8List im = await pickImage(ImageSource.gallery);
+    // set state because we need to display the image we selected on the circle avatar
+    setState(() {
+      _image = im;
+    });
+  }
+
+  void editUname() async {
+    // set loading to true
+    setState(() {
+      _isLoading = true;
+    });
+
+    // signup user using our authmethodds
+    String res =
+        await AuthMethods().editUname(username: _usernameController.text);
+    // if string returned is sucess, user has been created
+    if (res == "success") {
+      setState(() {
+        _isLoading = false;
+      });
+      Navigator.of(context).push(
+        MaterialPageRoute(
+          builder: (context) => ProfileScreen(
+            uid: userData['uid'],
+          ),
+        ),
+      );
+    } else {
+      setState(() {
+        _isLoading = false;
+      });
+      // show the error
+      showSnackBar(context, res);
+    }
+  }
+
+  void editPho() async {
+    // set loading to true
+    setState(() {
+      _isLoading = true;
+    });
+
+    // signup user using our authmethodds
+    String res = await AuthMethods().editPho(file: _image!);
+    // if string returned is sucess, user has been created
+    if (res == "success") {
+      setState(() {
+        _isLoading = false;
+      });
+      Navigator.of(context).push(
+        MaterialPageRoute(
+          builder: (context) => ProfileScreen(
+            uid: userData['uid'],
+          ),
+        ),
+      );
+    } else {
+      setState(() {
+        _isLoading = false;
+      });
+      // show the error
+      showSnackBar(context, res);
+    }
   }
 }

@@ -92,10 +92,6 @@ class AuthMethods {
     return res;
   }
 
-  Future<void> signOut() async {
-    await _auth.signOut();
-  }
-
   Future forgotPassword({
     required String email,
   }) async {
@@ -108,6 +104,57 @@ class AuthMethods {
         res = "success";
       } else {
         res = "Please input email";
+      }
+    } catch (err) {
+      return err.toString();
+    }
+    return res;
+  }
+
+  Future<void> signOut() async {
+    await _auth.signOut();
+  }
+
+  Future editUname({
+    required String username,
+  }) async {
+    print('this has been called');
+    print(username);
+    print(FirebaseAuth.instance.currentUser?.uid);
+    String res = "Some error Occurred";
+    try {
+      if (username.isNotEmpty) {
+        FirebaseFirestore.instance
+            .collection('users')
+            .doc(FirebaseAuth.instance.currentUser?.uid)
+            .update({'username': username});
+        res = "success";
+      } else {
+        res = "input username or choose photo";
+      }
+    } catch (err) {
+      return err.toString();
+    }
+    return res;
+  }
+
+  Future editPho({
+    required Uint8List file,
+  }) async {
+    print('this has been called');
+    print(FirebaseAuth.instance.currentUser?.uid);
+    String res = "Some error Occurred";
+    try {
+      if (file.isNotEmpty) {
+        String photoUrl = await StorageMethods()
+            .uploadImageToStorage('profilePics', file, false);
+        FirebaseFirestore.instance
+            .collection('users')
+            .doc(FirebaseAuth.instance.currentUser?.uid)
+            .update({'photoUrl': photoUrl});
+        res = "success";
+      } else {
+        res = "input username or choose photo";
       }
     } catch (err) {
       return err.toString();
