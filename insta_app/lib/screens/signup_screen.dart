@@ -108,13 +108,13 @@ class _SignupScreenState extends State<SignupScreen> {
                       ? CircleAvatar(
                           radius: 64,
                           backgroundImage: MemoryImage(_image!),
-                          backgroundColor: Colors.red,
+                          backgroundColor: primaryColor,
                         )
                       : const CircleAvatar(
                           radius: 64,
                           backgroundImage: NetworkImage(
                               'https://i.stack.imgur.com/l60Hf.png'),
-                          backgroundColor: Colors.red,
+                          backgroundColor: primaryColor,
                         ),
                   Positioned(
                     bottom: -10,
@@ -167,6 +167,10 @@ class _SignupScreenState extends State<SignupScreen> {
                   child: !_isLoading
                       ? const Text(
                           'Sign up',
+
+                          style: TextStyle(
+                          fontWeight: FontWeight.bold, color: webBackgroundColor
+                        ),
                         )
                       : const CircularProgressIndicator(
                           color: primaryColor,
@@ -178,7 +182,7 @@ class _SignupScreenState extends State<SignupScreen> {
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.all(Radius.circular(4)),
                     ),
-                    color: blueColor,
+                    color: primaryColor,
                   ),
                 ),
                 onTap: signUpUser,

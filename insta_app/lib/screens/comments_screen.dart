@@ -50,7 +50,7 @@ class _CommentsScreenState extends State<CommentsScreen> {
 
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: mobileBackgroundColor,
+        backgroundColor: primaryColor,
         title: const Text(
           'Comments',
         ),
@@ -114,7 +114,7 @@ class _CommentsScreenState extends State<CommentsScreen> {
                       const EdgeInsets.symmetric(vertical: 8, horizontal: 8),
                   child: const Text(
                     'Post',
-                    style: TextStyle(color: Colors.blue),
+                    style: TextStyle(color: primaryColor),
                   ),
                 ),
               )
