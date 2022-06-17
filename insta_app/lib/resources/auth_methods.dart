@@ -114,11 +114,4 @@ class AuthMethods {
     }
     return res;
   }
-
-  Future updateUserName(String updated) {
-    return FirebaseFirestore.instance
-        .collection('users')
-        .doc(uid)
-        .update({"username": updated});
-  }
 }
