@@ -69,6 +69,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
     });
   }
 
+  final TextEditingController _controller =
+      TextEditingController(text: userData['username']);
+  bool _isEnable = false;
+
   @override
   Widget build(BuildContext context) {
     return isLoading
@@ -186,11 +190,24 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         padding: const EdgeInsets.only(
                           top: 15,
                         ),
-                        child: Text(
-                          userData['username'],
-                          style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                          ),
+                        child: Row(
+                          children: [
+                            TextField(
+                              controller: _controller,
+                              enabled: _isEnable,
+                              style: const TextStyle(
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                            IconButton(
+                              icon: const Icon(Icons.edit),
+                              onPressed: () {
+                                setState(() {
+                                  _isEnable = true;
+                                });
+                              },
+                            )
+                          ],
                         ),
                       ),
                       Container(
