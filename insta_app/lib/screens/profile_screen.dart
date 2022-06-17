@@ -69,6 +69,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
     });
   }
 
+  final TextEditingController _controller =
+      TextEditingController(text: "userData['username']");
+
   @override
   Widget build(BuildContext context) {
     return isLoading
@@ -186,11 +189,23 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         padding: const EdgeInsets.only(
                           top: 15,
                         ),
-                        child: Text(
-                          userData['username'],
-                          style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                          ),
+                        child: Row(
+                          children: [
+                            Text(
+                              userData['username'],
+                              style: const TextStyle(
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                            IconButton(
+                              icon: const Icon(Icons.edit),
+                              onPressed: () {
+                                setState(() {
+                                  _editTitleTextField();
+                                });
+                              },
+                            )
+                          ],
                         ),
                       ),
                       Container(
@@ -216,7 +231,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               text: 'Get QR Code',
                             ),
                           ),
-                          SizedBox(width: 15),
+                          const SizedBox(width: 15),
                           Container(
                             alignment: Alignment.centerLeft,
                             padding: const EdgeInsets.only(
@@ -226,7 +241,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               onPressed: () {
                                 Navigator.of(context).pushReplacement(
                                   MaterialPageRoute(
-                                    builder: (context) => mobileScanner(),
+                                    builder: (context) => const mobileScanner(),
                                   ),
                                 );
                               },
@@ -278,6 +293,29 @@ class _ProfileScreenState extends State<ProfileScreen> {
               ],
             ),
           );
+  }
+
+  Widget _editTitleTextField() {
+    if (userData['username']) {
+      return Center(
+        child: TextField(
+          onSubmitted: (newValue) {
+            setState(() {
+              userData['username'] = newValue;
+            });
+          },
+          autofocus: true,
+          controller: _controller,
+        ),
+      );
+    }
+    return InkWell(
+      onTap: () {
+        setState(() {
+          _editTitleTextField();
+        });
+      },
+    );
   }
 
   Column buildStatColumn(int num, String label) {
