@@ -126,7 +126,7 @@ class _AddPostScreenState extends State<AddPostScreen> {
           )
         : Scaffold(
             appBar: AppBar(
-              backgroundColor: mobileBackgroundColor,
+              backgroundColor: primaryColor,
               leading: IconButton(
                 icon: const Icon(Icons.arrow_back),
                 onPressed: clearImage,
@@ -145,7 +145,7 @@ class _AddPostScreenState extends State<AddPostScreen> {
                   child: const Text(
                     "Post",
                     style: TextStyle(
-                        color: primaryColor,
+                        color: mobileBackgroundColor,
                         fontWeight: FontWeight.bold,
                         fontSize: 16.0),
                   ),
