@@ -92,7 +92,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
           )
         : Scaffold(
             appBar: AppBar(
-              backgroundColor: mobileBackgroundColor,
+              backgroundColor: primaryColor,
               title: Text(
                 userData['username'],
               ),
@@ -212,7 +212,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               ),
                             ),
                             IconButton(
-                              icon: Icon(Icons.edit),
+                              icon: const Icon(Icons.edit),
                               onPressed: () {
                                 menuDialog();
                               },
@@ -243,7 +243,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               text: 'Get QR Code',
                             ),
                           ),
-                          SizedBox(width: 15),
+                          const SizedBox(width: 15),
                           Container(
                             alignment: Alignment.centerLeft,
                             padding: const EdgeInsets.only(
@@ -253,7 +253,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               onPressed: () {
                                 Navigator.of(context).pushReplacement(
                                   MaterialPageRoute(
-                                    builder: (context) => mobileScanner(),
+                                    builder: (context) => const mobileScanner(),
                                   ),
                                 );
                               },
