@@ -38,6 +38,7 @@ dependencies:
   flutter_svg: ^1.0.0
   getwidget: ^3.0.1
   image_picker: ^0.8.4+4
+  image_cropper: ^2.0.3
   intl: ^0.17.0
   mobile_scanner: ^1.1.2
   provider: ^6.0.1
