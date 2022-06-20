@@ -130,7 +130,7 @@ class AuthMethods {
             .update({'username': username});
         res = "success";
       } else {
-        res = "input username or choose photo";
+        res = "input username";
       }
     } catch (err) {
       return err.toString();
@@ -154,7 +154,7 @@ class AuthMethods {
             .update({'photoUrl': photoUrl});
         res = "success";
       } else {
-        res = "input username or choose photo";
+        res = "choose photo";
       }
     } catch (err) {
       return err.toString();

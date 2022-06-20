@@ -68,6 +68,7 @@ class _mobileScannerState extends State<mobileScanner> {
                     ),
                   ),
                 );
+                print(code);
               }
             }));
   }
