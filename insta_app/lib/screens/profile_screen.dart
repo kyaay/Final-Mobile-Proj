@@ -4,6 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:getwidget/getwidget.dart';
+import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:instagram_clone_flutter/resources/auth_methods.dart';
 import 'package:instagram_clone_flutter/resources/firestore_methods.dart';
@@ -133,24 +134,22 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                   children: [
                                     FirebaseAuth.instance.currentUser!.uid ==
                                             widget.uid
-                                        ? Flexible(
-                                            child: FollowButton(
-                                              text: 'Sign Out',
-                                              backgroundColor:
-                                                  mobileBackgroundColor,
-                                              textColor: primaryColor,
-                                              borderColor: Colors.grey,
-                                              function: () async {
-                                                await AuthMethods().signOut();
-                                                Navigator.of(context)
-                                                    .pushReplacement(
-                                                  MaterialPageRoute(
-                                                    builder: (context) =>
-                                                        const LoginScreen(),
-                                                  ),
-                                                );
-                                              },
-                                            ),
+                                        ? FollowButton(
+                                            text: 'Sign Out',
+                                            backgroundColor:
+                                                mobileBackgroundColor,
+                                            textColor: primaryColor,
+                                            borderColor: Colors.grey,
+                                            function: () async {
+                                              await AuthMethods().signOut();
+                                              Navigator.of(context)
+                                                  .pushReplacement(
+                                                MaterialPageRoute(
+                                                  builder: (context) =>
+                                                      const LoginScreen(),
+                                                ),
+                                              );
+                                            },
                                           )
                                         : isFollowing
                                             ? FollowButton(
@@ -211,12 +210,14 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                 fontWeight: FontWeight.bold,
                               ),
                             ),
-                            IconButton(
-                              icon: Icon(Icons.edit),
-                              onPressed: () {
-                                menuDialog();
-                              },
-                            )
+                            FirebaseAuth.instance.currentUser!.uid == widget.uid
+                                ? IconButton(
+                                    icon: Icon(Icons.edit),
+                                    onPressed: () {
+                                      menuDialog();
+                                    },
+                                  )
+                                : Text('')
                           ],
                         ),
                       ),
@@ -231,35 +232,39 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       ),
                       Row(
                         children: [
-                          Container(
-                            alignment: Alignment.centerLeft,
-                            padding: const EdgeInsets.only(
-                              top: 15,
-                            ),
-                            child: GFButton(
-                              onPressed: () {
-                                qrCard();
-                              },
-                              text: 'Get QR Code',
-                            ),
-                          ),
-                          SizedBox(width: 15),
-                          Container(
-                            alignment: Alignment.centerLeft,
-                            padding: const EdgeInsets.only(
-                              top: 15,
-                            ),
-                            child: GFButton(
-                              onPressed: () {
-                                Navigator.of(context).pushReplacement(
-                                  MaterialPageRoute(
-                                    builder: (context) => mobileScanner(),
+                          FirebaseAuth.instance.currentUser!.uid == widget.uid
+                              ? Container(
+                                  alignment: Alignment.centerLeft,
+                                  padding: const EdgeInsets.only(
+                                    top: 15,
                                   ),
-                                );
-                              },
-                              text: 'Scan QR Code',
-                            ),
-                          ),
+                                  child: GFButton(
+                                    onPressed: () {
+                                      qrCard();
+                                    },
+                                    text: 'Get QR Code',
+                                  ),
+                                )
+                              : Text(''),
+                          SizedBox(width: 15),
+                          FirebaseAuth.instance.currentUser!.uid == widget.uid
+                              ? Container(
+                                  alignment: Alignment.centerLeft,
+                                  padding: const EdgeInsets.only(
+                                    top: 15,
+                                  ),
+                                  child: GFButton(
+                                    onPressed: () {
+                                      Navigator.of(context).pushReplacement(
+                                        MaterialPageRoute(
+                                          builder: (context) => mobileScanner(),
+                                        ),
+                                      );
+                                    },
+                                    text: 'Scan QR Code',
+                                  ),
+                                )
+                              : Text(''),
                         ],
                       ),
                     ],
