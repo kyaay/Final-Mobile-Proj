@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
@@ -12,24 +11,20 @@ pickImage(ImageSource source) async {
   final ImagePicker _imagePicker = ImagePicker();
   XFile? _file = await _imagePicker.pickImage(source: source);
   if (_file != null) {
-                      CroppedFile? croppedFile = await ImageCropper().cropImage(
-                    sourcePath: _file.path
-    //                 aspectRatioPresets: [
-    //     CropAspectRatioPreset.square,
-    //     CropAspectRatioPreset.ratio3x2,
-    //     CropAspectRatioPreset.original,
-    //     CropAspectRatioPreset.ratio4x3,
-    //     CropAspectRatioPreset.ratio16x9
-    //   ],
-    //   uiSettings: buildUiSettings(),
-    // );
-    uiSettings: [
+    CroppedFile? croppedFile = await ImageCropper().cropImage(
+      sourcePath: _file.path,
+      aspectRatioPresets: [
+        CropAspectRatioPreset.square,
+      ],
+      //uiSettings: buildUiSettings(),
+      // );
+      uiSettings: [
         AndroidUiSettings(
             toolbarTitle: 'Cropper',
             toolbarColor: Colors.deepOrange,
             toolbarWidgetColor: Colors.white,
-            initAspectRatio: CropAspectRatioPreset.original,
-            lockAspectRatio: false),
+            initAspectRatio: CropAspectRatioPreset.square,
+            lockAspectRatio: true),
         IOSUiSettings(
           title: 'Cropper',
         ),
